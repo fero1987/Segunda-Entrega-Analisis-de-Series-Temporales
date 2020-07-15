@@ -1,5 +1,5 @@
-############# SEGUNDA ENTREGA - AN罫ISIS DE SERIES TEMPORALES #############
-# Alumno: Fernando Mart韓ez 
+############# SEGUNDA ENTREGA - AN脕LISIS DE SERIES TEMPORALES #############
+# Alumnos: Fernando Mart铆nez, Nicol谩s De Elia, I帽aki D铆az Ugalde
 
 library(tseries)
 library(forecast)
@@ -35,9 +35,9 @@ ts.plot(ts, main = "Serie 1", ylab = "")
 # Planteo el test Dickey-Fuller para confirmar que es estacionaria
 adf.test(ts) # p-value = 0.01. Es estacionaria
 
-# Otra forma de comprobar la estacionariedad es detectar si todos los coeficientes de autocorrelaci髇 son iguales a cero
+# Otra forma de comprobar la estacionariedad es detectar si todos los coeficientes de autocorrelaci贸n son iguales a cero
 
-# Cargo la siguiente funci髇 de incorrelaci髇 que realiza un test de Ljung-Box o Box-Pierce para distintos lags
+# Cargo la siguiente funci贸n de incorrelaci贸n que realiza un test de Ljung-Box o Box-Pierce para distintos lags
 Incorrelation <- function(ts, type = c("Ljung-Box","Box-Pierce"), fitdf = 0){
   p_ljung_box = NULL
   s_ljung_box = NULL
@@ -51,7 +51,7 @@ Incorrelation <- function(ts, type = c("Ljung-Box","Box-Pierce"), fitdf = 0){
   return(table)
 }
 
-# Planteo el test de Ljung-Box. Si rechazo H0 significa que hay coeficientes de autocorrelaci髇 distintos a cero
+# Planteo el test de Ljung-Box. Si rechazo H0 significa que hay coeficientes de autocorrelaci贸n distintos a cero
 Incorrelation(ts,"Ljung-Box")
 
 inco_wn = Incorrelation(ts,"Ljung-Box")
@@ -60,7 +60,7 @@ inco_wn = Incorrelation(ts,"Ljung-Box")
 autoplot(ts(inco_wn$P_Value)) +
   ggtitle("Test de Ljung-Box", subtitle = "P-Value") +
   ylab("")
-# Ning鷑 p-value supera 0.05 por lo que no rechazo H0 y puedo considerar que es una serie estacionaria 
+# Ning煤n p-value supera 0.05 por lo que no rechazo H0 y puedo considerar que es una serie estacionaria 
 
 # Grafico FAS, FAC y FACP 
 acf(ts,type = "covariance",plot = T)
@@ -112,7 +112,7 @@ AIC_Matrix <- function(ts,p.order = 1, q.order = 1){
 
 AIC_Matrix(ts,p.order = 5,q.order = 5)
 
-# Seg鷑 esta funci髇, la que mejor criterio de informaci髇 (menor AIC) tiene es un ARMA de orden (2,1).
+# Seg煤n esta funci贸n, la que mejor criterio de informaci贸n (menor AIC) tiene es un ARMA de orden (2,1).
 
 ## Planteo un tercer modelo ARMA. AR: orden 2 - MA: orden 1
 
@@ -126,7 +126,7 @@ summary(modelo3)
 residuos3 <- resid(modelo3)
 Histogram(residuos3,density = T)
 
-# Cargo la siguiente funci髇 que realiza test de normalidad
+# Cargo la siguiente funci贸n que realiza test de normalidad
 Normality_Test <- function(ts,type = c("JB", "AD", "SW")){
   require(tseries)
   require(nortest)
@@ -160,7 +160,7 @@ autoplot(ts(inco_wn$P_Value)) +
   ggtitle("Test de Ljung-Box", subtitle = "P-Value") +
   ylab("")
 
-# todos los p-value son mayores a 0.05. No rechazo el supuesto de incorrelaci髇 (independencia)
+# todos los p-value son mayores a 0.05. No rechazo el supuesto de incorrelaci贸n (independencia)
 
 # Grafico la FAC y FACP para los residuos buscando que queden dentro del rango
 p1=ggAcf(residuos3) + ggtitle("FAC Residuos")
